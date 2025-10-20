@@ -1,0 +1,19 @@
+# Dependencies
+/node_modules
+
+# Environment Variables
+# IMPORTANT: This prevents your database secrets from being uploaded!
+.env
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Production build folder (if you have one)
+/dist
+
+# System files
+.DS_Store
