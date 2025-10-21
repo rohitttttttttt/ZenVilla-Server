@@ -141,10 +141,11 @@ io.on('connection', socket => {
     io.to(ownerSocketId).emit("want_to_join_my_room", joineeUserName , offer)
   })
   socket.on("joining_room", async (userName , answer) => {
-    await toggleAvailability(userName );
+   
 
     const ownerSocketId  = await getSocketOrUsername(userName);
     const joineeUserName = await getSocketOrUsername(socket.id)
+     await toggleAvailability(joineeUserName);
     io.to(ownerSocketId).emit("joining_my_room",answer , joineeUserName)
     
     await broadcastUpdatedRooms()
