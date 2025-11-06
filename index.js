@@ -53,12 +53,14 @@ const io = new Server(server, {
 });
 app.use(express.json());
 app.use(cors({
+  
   origin:  process.env.URL ,
   credentials: true, 
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
 }) 
 )
+console.log(process.env.URL)
 
 app.get("/",(req,res)=>{
   return res.send("hello world")

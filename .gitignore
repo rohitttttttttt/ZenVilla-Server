@@ -5,6 +5,7 @@
 # IMPORTANT: This prevents your database secrets from being uploaded!
 .env
 
+
 # Logs
 logs
 *.log

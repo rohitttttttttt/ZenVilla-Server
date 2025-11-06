@@ -3,6 +3,7 @@ import { uploadinCloud } from '../config/cloudinary.config.js';
 
 
  const signUp = async (req, res) => {
+   
     const { userName, fullName, password } = req.body;
     const profilePicFile = req.file;
 
@@ -12,7 +13,7 @@ import { uploadinCloud } from '../config/cloudinary.config.js';
 
     const isUserAlreadyExist = await User.findOne({ userName });
     if (isUserAlreadyExist) {
-        return res.status(409).json({ message: "Username is already taken." });
+        return res.status(510).json({ message: "Username is already taken." });
     }
 
     try {
