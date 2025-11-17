@@ -137,24 +137,30 @@ io.on('connection', socket => {
   })
   socket.on("want_to_join", async (userName , offer ) => {
     
+    
     const ownerSocketId  = await getSocketOrUsername(userName);
     const joineeUserName = await getSocketOrUsername(socket.id)
+    console.log("want to join " , userName , joineeUserName )
    
     io.to(ownerSocketId).emit("want_to_join_my_room", joineeUserName , offer)
   })
   socket.on("joining_room", async (userName , answer) => {
-   
+    
 
     const ownerSocketId  = await getSocketOrUsername(userName);
     const joineeUserName = await getSocketOrUsername(socket.id)
-     await toggleAvailability(joineeUserName);
+     await toggleAvailability(joineeUserName , false);
+     console.log("joinee can join " , userName)
+     console.log("i am owner  " , joineeUserName)
     io.to(ownerSocketId).emit("joining_my_room",answer , joineeUserName)
     
     await broadcastUpdatedRooms()
   })
 
   socket.on("owner_leaving_room", async (userName) => {
-      const ownerUserName =  await getSocketOrUsername(socket.id) 
+    let ownerUserName = await getSocketOrUsername(socket.id)  ;
+    
+      
       await deleteRoom(ownerUserName);
       if(userName){
         io.to(await getSocketOrUsername(userName)).emit("owner_leaved_room" , true)
@@ -163,14 +169,14 @@ io.on('connection', socket => {
   })
 
   socket.on("joinee_Leaving_rooms" , async (userName) => {
-    await toggleAvailability(userName )
+    await toggleAvailability(userName , true )
     io.to(await getSocketOrUsername(userName)).emit("joinee_leaved_room" , true)
     await broadcastUpdatedRooms()
   })
 
   socket.on("owner_removing_joinee" , async (userName)=>{
     const ownerUserName =  await getSocketOrUsername(socket.id) 
-    await toggleAvailability(ownerUserName )
+    await toggleAvailability(ownerUserName  , true)
     
     io.to(await getSocketOrUsername(userName)).emit("owner_Removed_joinee" , true)
     await broadcastUpdatedRooms()

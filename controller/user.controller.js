@@ -3,11 +3,12 @@ import { uploadinCloud } from '../config/cloudinary.config.js';
 
 
  const signUp = async (req, res) => {
+    console.log("got the req for signup")
    
     const { userName, fullName, password } = req.body;
-    const profilePicFile = req.file;
+    
 
-    if (!userName || !fullName || !password || !profilePicFile) {
+    if (!userName || !fullName || !password ) {
         return res.status(400).json({ message: "All fields are required, including a profile picture." });
     }
 
@@ -18,19 +19,16 @@ import { uploadinCloud } from '../config/cloudinary.config.js';
 
     try {
        
-        const avatarUrl = await uploadinCloud(profilePicFile, "profile_pictures");
+        
         
        
-        if (!avatarUrl) {
-            throw new Error("Cloudinary did not return a URL.");
-        }
+       
 
        
         const user = await User.create({
             userName,
             fullName,
             password,
-            profile: avatarUrl, 
         });
 
         

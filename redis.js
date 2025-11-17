@@ -41,12 +41,17 @@ export async function addRoom(userName, title, description, url, type) {
 }
 
 
-export async function toggleAvailability(userName) {
+export async function toggleAvailability(userName , flag) {
   try {
     const room = await redis.hgetall(`room:${userName}`);
     if (!room || !room.type) return "Room not found";
-
-    const newStatus = room.isAvailable === "true" ? "false" : "true";
+    let newStatus
+    if(flag){
+      newStatus = "true"
+    }else{
+      newStatus = "false"
+    }
+    
     await redis.hset(`room:${userName}`, "isAvailable", newStatus);
 
     return `Room availability updated to ${newStatus}`;

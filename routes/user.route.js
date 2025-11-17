@@ -7,7 +7,7 @@ const router = Router();
 
 // Add the multer middleware here. It will run before signUp.
 // "profilePic" is the field name you must use in your frontend form (e.g., Postman, FormData)
-router.post("/register", fileHandler("profilePic", "single"), signUp);
+router.post("/register",  signUp);
 
 router.post("/login", login);
 router.get("/getUser", auth, getUser);
